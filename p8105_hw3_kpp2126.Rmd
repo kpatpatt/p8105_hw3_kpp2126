@@ -34,20 +34,24 @@ The `instacart` dataset has `r nrow(instacart)` observations and `r ncol(instaca
 ```{r number of aisles}
 #part 1a
 distinctaisles <- instacart %>%
-  select(aisle_id) %>%
+  select(aisle_id, aisle) %>% #including/excluding aisle doesn't make any difference in the final count
   distinct %>%
   count
 
 #part 1b
 mostorderedaisle <- instacart %>%
-  group_by(aisle_id) %>%
+  group_by(aisle_id, aisle) %>%
   count %>%
   arrange(desc(n))
 
 ```
-There are `r pull(count(distinctaisles))` aisles, and aisle number `r mostorderedaisle[1,1]` is the most ordered from with `r mostorderedaisle[1,2]` orders, followed by aisles `r mostorderedaisle[2,1]`, `r mostorderedaisle[3,1]`, `r mostorderedaisle[4,1]` with `r mostorderedaisle[2,1]`, `r mostorderedaisle[3,1]`, `r mostorderedaisle[4,1]` orders respectively.
+There are `r pull(count(distinctaisles))` aisles, and aisle number `r mostorderedaisle[1,1]` is the most ordered aisle with `r mostorderedaisle[1,2]` orders, followed by aisles `r mostorderedaisle[2,1]`, `r mostorderedaisle[3,1]`, `r mostorderedaisle[4,1]` with `r mostorderedaisle[2,1]`, `r mostorderedaisle[3,1]`, `r mostorderedaisle[4,1]` orders, respectively.
 
 (2)Make a plot that shows the number of items ordered in each aisle, limiting this to aisles with more than 10000 items ordered. 
+```{r items ordered}
+
+```
+
 (3)Arrange aisles sensibly, and organize your plot so others can read it.
 (4)Make a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table.
 (5)Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
