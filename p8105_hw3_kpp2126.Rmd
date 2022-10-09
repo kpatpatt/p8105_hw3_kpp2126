@@ -9,3 +9,47 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r libraries}
+library(tidyverse)
+```
+
+## Problem 1
+```{r load data}
+library(p8105.datasets)
+data("instacart")
+skimr::skim(instacart)
+```
+
+*The goal is to do some exploration of this dataset.
+(1)write a short description of the dataset
+(2)noting the size and structure of the data
+(3)describing some key variables
+(4)giving illustrative examples of observation
+
+The `instacart` dataset has `r nrow(instacart)` observations and `r ncol(instacart)` variables. There are 4 character variables that detail `eva and 11 numeric variables that detail
+
+*Then, do or answer the following (commenting on the results of each):
+(1a)How many aisles are there?
+(1b)Which aisles are the most items ordered from?
+```{r number of aisles}
+#part 1a
+distinctaisles <- instacart %>%
+  select(aisle_id) %>%
+  distinct %>%
+  count
+
+#part 1b
+mostorderedaisle <- instacart %>%
+  group_by(aisle_id) %>%
+  count %>%
+  arrange(desc(n))
+
+```
+There are `r pull(count(distinctaisles))` aisles, and aisle number `r mostorderedaisle[1,1]` is the most ordered from with `r mostorderedaisle[1,2]` orders, followed by aisles `r mostorderedaisle[2,1]`, `r mostorderedaisle[3,1]`, `r mostorderedaisle[4,1]` with `r mostorderedaisle[2,1]`, `r mostorderedaisle[3,1]`, `r mostorderedaisle[4,1]` orders respectively.
+
+(2)Make a plot that shows the number of items ordered in each aisle, limiting this to aisles with more than 10000 items ordered. 
+(3)Arrange aisles sensibly, and organize your plot so others can read it.
+(4)Make a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table.
+(5)Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
+
+
