@@ -11,15 +11,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r libraries}
 library(tidyverse)
+library(ggplot2)
 ```
-
 ## Problem 1
 ```{r load data}
 library(p8105.datasets)
 data("instacart")
 #skimr::skim(instacart)
 ```
-
 | The goal is to do some exploration of this dataset:
 |  (1) Write a short description of the dataset
 |  (2) Note the size and structure of the data
@@ -31,26 +30,41 @@ The `instacart` dataset has `r nrow(instacart)` observations and `r ncol(instaca
 | Then, do or answer the following (commenting on the results of each):
 |  (1a) How many aisles are there?
 |  (1b) Which aisles are the most items ordered from?
+|  (note) Arrange aisles sensibly, and organize your plot so others can read it.
 ```{r number of aisles}
 #part 1a
 distinctaisles <- instacart %>%
   select(aisle_id, aisle) %>% #including/excluding aisle doesn't make any difference in the final count
-  distinct %>%
-  count
+  distinct
 
 #part 1b
 mostorderedaisle <- instacart %>%
   group_by(aisle_id, aisle) %>%
   count %>%
-  arrange(desc(n))
+  arrange(desc(n), .by_group = F) #I added the false condition to override the grouping I did earlier so that I can arrange it by descending order without any attention to group
 ```
 There are `r pull(count(distinctaisles))` aisles, and aisle #`r mostorderedaisle[1,1]` (`r mostorderedaisle[1,2]`) is the most ordered aisle with `r mostorderedaisle[1,3]` orders, followed by aisles #`r mostorderedaisle[2,1]` (`r mostorderedaisle[2,2]`), #`r mostorderedaisle[3,1]` (`r mostorderedaisle[3,2]`), and #`r mostorderedaisle[4,1]` (`r mostorderedaisle[4,2]`) with `r mostorderedaisle[2,3]`, `r mostorderedaisle[3,3]`, `r mostorderedaisle[4,3]` orders, respectively.
 
-|  (2) Make a plot that shows the number of items ordered in each aisle, limiting this to aisles with more than 10000 items ordered. 
+|  (2) Make a plot that shows the number of items ordered in each aisle, limiting this to aisles with more than         10000 items ordered.
+|  (note) Arrange aisles sensibly, and organize your plot so others can read it.
 ```{r items ordered}
+instacart %>%
+  count(aisle) %>%
+  filter(n > 10000) %>%
+  mutate(count = n,
+         aisle = fct_reorder(aisle, count)) %>%
+  ggplot(aes(x = count, y = aisle)) +
+  geom_col(width = 0.7) +
+  labs(title = "Instacart: Number of Items ordered in each Aisle")
+```
+
+|  (4) Make a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food          care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table.
+```{r table three most popular}
 
 ```
 
-|  (3)Arrange aisles sensibly, and organize your plot so others can read it.
-|  (4)Make a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food       care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table.
-|  (5)Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered on    each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
+|  (5) Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered         on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
+```{r table mean hour}
+
+```
+
