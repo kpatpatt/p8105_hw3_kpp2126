@@ -58,9 +58,16 @@ instacart %>%
   labs(title = "Instacart: Number of Items ordered in each Aisle")
 ```
 
-|  (4) Make a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food          care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table.
+|  (4) Make a table showing the three most popular items in each of the aisles “baking ingredients”, “dog food care”, and “packaged vegetables fruits”. Include the number of times each item is ordered in your table. filter ->  -> knitr::kable()
 ```{r table three most popular}
-
+instacart %>%
+  filter(aisle %in% c("baking ingredients", "dog food care", "packaged vegetables fruits")) %>%
+  group_by(aisle) %>%
+  count(product_name) %>%
+  mutate(rank = min_rank(desc(n))) %>%
+  filter(rank < 4) %>%
+  arrange(desc(n)) %>%
+  knitr::kable()
 ```
 
 |  (5) Make a table showing the mean hour of the day at which Pink Lady Apples and Coffee Ice Cream are ordered         on each day of the week; format this table for human readers (i.e. produce a 2 x 7 table).
