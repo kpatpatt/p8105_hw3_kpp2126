@@ -132,12 +132,18 @@ It is difficult to ascertain any clear trends in from the table alone. Saturday 
 
 Accelerometer data allows the inspection activity over the course of the day: 
 
-|  (3) Make a single-panel plot that shows the 24-hour activity time courses for each day and use color to indicate day of the week. |  (3a) Describe in words any patterns or conclusions you can make based on this graph.
+|  (3) Make a single-panel plot that shows the 24-hour activity time courses for each day and use color to indicate day of the week. 
+|  (3a) Describe in words any patterns or conclusions you can make based on this graph.
 
 ```{r plot 24-hour}
-
+accel_df %>% 
+  ggplot(aes(x = activity_minute, 
+             y = activity_count, 
+             group = day_id, 
+             color = day)) + 
+  geom_point()
 ```
-
+There tends to higher activity during the two points in the day and that the weekend has higher activity shown for these two time points. compared to weekdays. There some clear consistency of activity for some weekdays like Tuesday where there's no significant peaking until nearing the end of a day (early evening).
 
 ## Problem 3
 
