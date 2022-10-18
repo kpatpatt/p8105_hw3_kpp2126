@@ -97,10 +97,16 @@ This problem uses five weeks of accelerometer data collected on a 63 year-old ma
 ```{r load tidy wrangle}
 accel_df = read_csv('data/accel_data.csv') %>% 
   janitor:: clean_names() %>%
-  mutate(day = ifelse(day %in% c("Saturday", "Sunday"), "weekend", "weekday")) %>%
   pivot_longer(activity_1:activity_1440,
-               names_to = "activity_time",
-               values_to = "activity_counts")
+               names_to = "activity_minute",
+               names_prefix = "activity_",
+               values_to = "activity_count") %>%
+  mutate(weekend_weekday = ifelse(day %in% c("Saturday", "Sunday"), "weekend", "weekday"),
+         activity_minute = as.numeric(activity_minute),
+         day = as.factor(day))
+  
+
+skimr::skim(accel_df)
 ```
 
 Traditional analyses of accelerometer data focus on the total activity over the day:
