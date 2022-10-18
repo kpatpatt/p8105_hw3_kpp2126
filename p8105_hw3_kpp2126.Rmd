@@ -17,7 +17,7 @@ library(ggplot2)
 ```{r load data}
 library(p8105.datasets)
 data("instacart")
-skimr::skim(instacart)
+#skimr::skim(instacart)
 ```
 | The goal is to do some exploration of this dataset:
 |  (1) Write a short description of the dataset
