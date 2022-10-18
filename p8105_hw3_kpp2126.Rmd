@@ -159,6 +159,8 @@ data("ny_noaa")
 |  (1b) describing some key variables
 |  (1c) indicating the extent to which missing data is an issue
 
+This dataset has `r nrow(ny_noaa)` observations and `r ncol(ny_noaa)` variables. Of these `r ncol(ny_noaa)` variables, there are `id` indicating the weather station, `date` of recording, `prcp` precipitation (tenths of mm), `snow` snowfall (mm), `snwd` snow depth (mm), and `tmax` and `tmin` both indicating maximum temperature and minimum temperature (tenths of degrees C) respectively.
+
 Then, do or answer the following (commenting on the results of each):
 
 |  (2) Do some data cleaning
