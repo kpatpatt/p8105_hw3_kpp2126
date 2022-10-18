@@ -102,7 +102,8 @@ accel_df = read_csv('data/accel_data.csv') %>%
                values_to = "activity_count") %>%
   mutate(weekend_weekday = ifelse(day %in% c("Saturday", "Sunday"), "weekend", "weekday"),
          activity_minute = as.numeric(activity_minute),
-         day = as.factor(day))
+         day = factor(day, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", 
+    "Friday", "Saturday")))
 
 #skimr::skim(accel_df)
 ```
@@ -114,13 +115,20 @@ The resulting tidied dastset contains `r nrow(accel_df)` activity counts and `r 
 Traditional analyses of accelerometer data focus on the total activity over the day:
 
 Using your tidied dataset, 
-|  (2) Aggregate across minutes to create a total activity variable for each day
+|  (2) Aggregate across minutes to create a `total activity variable` for each day
 |  (2a) Create a table showing these totals. Are any trends apparent?
 
 ```{r table totals}
-
+accel_df %>% 
+  group_by(day, week) %>% 
+  summarize(total_activity = sum(activity_count)) %>% 
+  pivot_wider(
+    names_from = day, 
+    values_from = total_activity) %>%
+  knitr::kable(col.names = c('Week', 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'),
+               digits = 0)
 ```
-
+It is difficult to ascertain any clear trends in from the table alone. Saturday holds two of the lowest total activity counts, which may be due to recording error since they are the same values for both days. Visualization is needed to clearly identify any existing trends.
 
 Accelerometer data allows the inspection activity over the course of the day: 
 
