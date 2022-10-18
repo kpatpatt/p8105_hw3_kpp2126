@@ -17,7 +17,7 @@ library(ggplot2)
 ```{r load data}
 library(p8105.datasets)
 data("instacart")
-#skimr::skim(instacart)
+skimr::skim(instacart)
 ```
 | The goal is to do some exploration of this dataset:
 |  (1) Write a short description of the dataset
@@ -25,7 +25,7 @@ data("instacart")
 |  (3) Describe some key variables
 |  (4) Give illustrative examples of observation
 
-The `instacart` dataset has `r nrow(instacart)` observations and `r ncol(instacart)` variables. There are 4 character variables that detail and 11 numeric variables that detail
+The `instacart` dataset has `r nrow(instacart)` observations and `r ncol(instacart)` variables. There are 4 character variables that indicate `aisle`, `department`, `product_name`, and `eval_set`. There are 11 numeric variables that specifically id the order, product, user, number, and aisle, while the rest detail higher level characteristics like the order of when the product added to cart, if it was reordered, day of the week ordered, hour of the day ordered, and days since last order.
 
 | Then, do or answer the following (commenting on the results of each):
 |  (1a) How many aisles are there?
@@ -92,7 +92,6 @@ This problem uses five weeks of accelerometer data collected on a 63 year-old ma
 |  (note) Have useful variable names
 |  (1a) Include a weekday vs weekend variable
 |  (1b) Encode data with reasonable variable classes
-|  (1c) Describe the resulting dataset (e.g. what variables exist, how many observations, etc)
 
 ```{r load tidy wrangle}
 accel_df = read_csv('data/accel_data.csv') %>% 
@@ -104,10 +103,13 @@ accel_df = read_csv('data/accel_data.csv') %>%
   mutate(weekend_weekday = ifelse(day %in% c("Saturday", "Sunday"), "weekend", "weekday"),
          activity_minute = as.numeric(activity_minute),
          day = as.factor(day))
-  
 
-skimr::skim(accel_df)
+#skimr::skim(accel_df)
 ```
+|  (1c) Describe the resulting dataset (e.g. what variables exist, how many observations, etc)
+
+The resulting tidied dastset contains `r nrow(accel_df)` activity counts and `r ncol(accel_df)` variables. Of these 
+`r ncol(accel_df)` variables, there is `week` variable that ranges from 1-5 weeks; there's a `day_id` variable that ranges from 1-29 days; and there's a `day` variable that indicates the day of the week with a `weekend_weekday` variable that indicates if it is a weekend or weekday. Lastly, there are `activity_minute` and `activity_count` that indicate the minute of the day and the corresponding activity count recorded at that minute. 
 
 Traditional analyses of accelerometer data focus on the total activity over the day:
 
